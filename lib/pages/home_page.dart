@@ -3,7 +3,9 @@ import 'package:pinput/pinput.dart';
 import 'package:sayiciklar/logic.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  final List<int> random;
+  const MyHomePage({Key? key, required this.title, required this.random})
+      : super(key: key);
 
   final String title;
 
@@ -48,7 +50,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     chose.add(int.parse(element));
                   });
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Logic(chosen: chose)));
+                      builder: (context) => Logic(
+                            chosen: chose,
+                            random: widget.random,
+                          )));
                   textController.text = '';
                   debugPrint(chose.toString());
                 },

@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 class Logic extends StatefulWidget {
   final List<int> chosen;
-  const Logic({Key? key, required this.chosen}) : super(key: key);
+  final List<int> random;
+  const Logic({Key? key, required this.chosen, required this.random})
+      : super(key: key);
 
   @override
   State<Logic> createState() => _LogicState();
 }
 
 class _LogicState extends State<Logic> {
-  List<int> random = [1, 2, 4, 8];
-
   int artiBir = 0;
   int eksiBir = 0;
 
@@ -44,7 +44,7 @@ class _LogicState extends State<Logic> {
     artiBir = 0;
     int i;
     for (i = 0; i < 4; i++) {
-      if (random[i] == widget.chosen[i]) {
+      if (widget.random[i] == widget.chosen[i]) {
         artiBir++;
       }
     }
@@ -55,8 +55,8 @@ class _LogicState extends State<Logic> {
   int eksi() {
     eksiBir = 0;
     for (int i = 0; i < 4; i++) {
-      if (random.contains(widget.chosen[i])) {
-        if (random[i] != widget.chosen[i]) {
+      if (widget.random.contains(widget.chosen[i])) {
+        if (widget.random[i] != widget.chosen[i]) {
           eksiBir--;
         }
       }
