@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Align(
                     alignment: Alignment.center,
                     child: Text(
-                      '4 Basamakli Bir Sayi Gir',
+                      '4 Basamakli Bir Sayi Gir??',
                       style: TextStyle(fontSize: 24, color: Colors.blue),
                     ),
                   ),
