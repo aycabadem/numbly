@@ -34,7 +34,6 @@ class _EnterPageState extends State<EnterPage> {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => MyHomePage(
                           title: 'Numbly',
-                          random: randomNumber(),
                         )));
               },
               child: Text('Play'),
@@ -43,23 +42,5 @@ class _EnterPageState extends State<EnterPage> {
         ),
       ),
     );
-  }
-
-  List<int> randomNumber() {
-    final List<int> randomNum = [];
-
-    Random random = Random();
-
-    for (int i = 0; i < 4; i++) {
-      int random1 = random.nextInt(10);
-      if (randomNum.contains(random1) || random1 == 0) {
-        return randomNumber();
-      }
-      randomNum.add(random1);
-    }
-
-    debugPrint(randomNum.toString());
-
-    return randomNum;
   }
 }

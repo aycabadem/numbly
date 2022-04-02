@@ -2,17 +2,16 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pinput/pinput.dart';
+
 import 'package:sayiciklar/cubit/game_cubit.dart';
 import 'package:sayiciklar/cubit/game_state.dart';
+import 'package:sayiciklar/helpers/dialog_helper.dart';
 import 'package:sayiciklar/helpers/logic_helper.dart';
 import 'package:sayiciklar/models/tahmin.dart';
+import 'package:sayiciklar/widgets/pin.dart';
 
 class MyHomePage extends StatefulWidget {
-  final List<int> random;
-
-  const MyHomePage({Key? key, required this.title, required this.random})
-      : super(key: key);
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -30,7 +29,12 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: BlocBuilder<GameCubit, GameState>(
+      body: BlocConsumer<GameCubit, GameState>(
+        listener: (context, state) {
+          if (state.tahmin.isNotEmpty && state.tahmin.last.artiBir == 4) {
+            DialogHelper.showCupertinoDialog(context);
+          }
+        },
         builder: (context, state) {
           return Column(
             children: [
@@ -48,10 +52,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-              pin(),
+              pin(textController),
               Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 20),
-                child: Container(
+                child: SizedBox(
                   width: 200,
                   child: ElevatedButton(
                     child: Text('Enter'),
@@ -60,12 +64,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       textController.text.characters.forEach((element) {
                         chose.add(int.parse(element));
                       });
-
+                      final logicHelper = LogicHelper(
+                          context.read<GameCubit>().randomInt, chose);
                       context.read<GameCubit>().enter(
                             Tahmin(
                               sayi: don(chose),
-                              artiBir: LogicHelper(widget.random, chose).arti(),
-                              eskiBir: LogicHelper(widget.random, chose).eksi(),
+                              artiBir: logicHelper.arti(),
+                              eskiBir: logicHelper.eksi(),
                               tur: sayac,
                             ),
                           );
@@ -108,54 +113,6 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         },
       ),
-    );
-  }
-
-  Widget pin() {
-    final defaultPinTheme = PinTheme(
-      width: 56,
-      height: 56,
-      textStyle: TextStyle(
-          fontSize: 20,
-          color: Color.fromRGBO(30, 60, 87, 1),
-          fontWeight: FontWeight.w600),
-      decoration: BoxDecoration(
-        border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),
-        borderRadius: BorderRadius.circular(20),
-      ),
-    );
-
-    final focusedPinTheme = defaultPinTheme.copyDecorationWith(
-      border: Border.all(color: Color.fromRGBO(114, 178, 238, 1)),
-      borderRadius: BorderRadius.circular(8),
-    );
-
-    final submittedPinTheme = defaultPinTheme.copyWith(
-      decoration: defaultPinTheme.decoration!.copyWith(
-        color: Color.fromRGBO(234, 239, 243, 1),
-      ),
-    );
-
-    return Pinput(
-      controller: textController,
-      defaultPinTheme: defaultPinTheme,
-      focusedPinTheme: focusedPinTheme,
-      submittedPinTheme: submittedPinTheme,
-      validator: (s) {
-        return null;
-      },
-      pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-      showCursor: true,
-      // onCompleted: (pin) {
-      //   final List<int> chose = [];
-      //   pin.characters.forEach((element) {
-      //     chose.add(int.parse(element));
-      //   });
-      //   Navigator.of(context).push(
-      //       MaterialPageRoute(builder: (context) => Logic(chosen: chose)));
-      //   textController!.text = '';
-      //   debugPrint(chose.toString());
-      // },
     );
   }
 
