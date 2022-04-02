@@ -1,9 +1,16 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
-import 'package:sayiciklar/logic.dart';
+import 'package:sayiciklar/cubit/game_cubit.dart';
+import 'package:sayiciklar/cubit/game_state.dart';
+import 'package:sayiciklar/helpers/logic_helper.dart';
+import 'package:sayiciklar/models/tahmin.dart';
 
 class MyHomePage extends StatefulWidget {
   final List<int> random;
+
   const MyHomePage({Key? key, required this.title, required this.random})
       : super(key: key);
 
@@ -15,6 +22,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   TextEditingController textController = TextEditingController();
+  int sayac = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -22,70 +30,83 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 50, left: 8, right: 8),
-            child: SizedBox(
-              width: 300,
-              height: 50,
-              child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    '4 Basamakli Bir Sayi Gir',
-                    style: TextStyle(fontSize: 24, color: Colors.blue),
-                  )),
-            ),
-          ),
-          pin(),
-          Padding(
-            padding: const EdgeInsets.only(top: 20, bottom: 20),
-            child: Container(
-              width: 200,
-              child: ElevatedButton(
-                child: Text('Enter'),
-                onPressed: () {
-                  final List<int> chose = [];
-                  textController.text.characters.forEach((element) {
-                    chose.add(int.parse(element));
-                  });
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Logic(
-                            chosen: chose,
-                            random: widget.random,
-                          )));
-                  textController.text = '';
-                  debugPrint(chose.toString());
-                },
+      body: BlocBuilder<GameCubit, GameState>(
+        builder: (context, state) {
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 50, left: 8, right: 8),
+                child: SizedBox(
+                  width: 300,
+                  height: 50,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      '4 Basamakli Bir Sayi Gir',
+                      style: TextStyle(fontSize: 24, color: Colors.blue),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-                itemCount: 30,
-                itemBuilder: (context, index) {
-                  return ListTile(
+              pin(),
+              Padding(
+                padding: const EdgeInsets.only(top: 20, bottom: 20),
+                child: Container(
+                  width: 200,
+                  child: ElevatedButton(
+                    child: Text('Enter'),
+                    onPressed: () {
+                      final List<int> chose = [];
+                      textController.text.characters.forEach((element) {
+                        chose.add(int.parse(element));
+                      });
+
+                      context.read<GameCubit>().enter(
+                            Tahmin(
+                              sayi: don(chose),
+                              artiBir: LogicHelper(widget.random, chose).arti(),
+                              eskiBir: LogicHelper(widget.random, chose).eksi(),
+                              tur: sayac,
+                            ),
+                          );
+                      textController.text = '';
+                      debugPrint(chose.toString());
+                      sayac++;
+                    },
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: state.tahmin.length,
+                  itemBuilder: (context, index) {
+                    final liste = state.tahmin.reversed.toList();
+                    return ListTile(
                       leading: ElevatedButton(
-                        child: Text('$index'),
+                        child: Text('${liste.length - index}'),
                         onPressed: () {},
                       ),
                       trailing: Text(
-                        "Tahmin : 4598",
+                        liste[index].sayi.toString(),
                         style: TextStyle(color: Colors.green, fontSize: 15),
                       ),
                       title: Row(
                         children: [
                           CircleAvatar(
-                            child: Text('+2'),
+                            child: Text(liste[index].artiBir.toString()),
                           ),
                           CircleAvatar(
-                            child: Text('+2'),
+                            child: Text(liste[index].eskiBir.toString()),
                           ),
                         ],
-                      ));
-                }),
-          )
-        ],
+                      ),
+                    );
+                  },
+                ),
+              )
+            ],
+          );
+        },
       ),
     );
   }
@@ -136,5 +157,14 @@ class _MyHomePageState extends State<MyHomePage> {
       //   debugPrint(chose.toString());
       // },
     );
+  }
+
+  int don(List<int> liste) {
+    int sayi = 0;
+
+    for (int i = 0; i < 4; i++) {
+      sayi += liste.reversed.toList()[i] * pow(10, i).toInt();
+    }
+    return sayi;
   }
 }

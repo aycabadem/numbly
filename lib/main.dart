@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sayiciklar/cubit/game_cubit.dart';
 import 'package:sayiciklar/pages/enter_page.dart';
 
 import 'pages/home_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(BlocProvider(
+    create: (context) => GameCubit(),
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -22,7 +27,6 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: EnterPage(),
-      //const MyHomePage(title: 'Numberly Game'),
     );
   }
 }
