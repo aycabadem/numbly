@@ -36,15 +36,32 @@ Widget pin(TextEditingController textController) {
     },
     pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
     showCursor: true,
-    // onCompleted: (pin) {
-    //   final List<int> chose = [];
-    //   pin.characters.forEach((element) {
-    //     chose.add(int.parse(element));
-    //   });
-    //   Navigator.of(context).push(
-    //       MaterialPageRoute(builder: (context) => Logic(chosen: chose)));
-    //   textController!.text = '';
-    //   debugPrint(chose.toString());
-    // },
+    onCompleted: (pin) {
+      final List<int> deneme = [];
+      pin.characters.forEach((element) {
+        deneme.add(int.parse(element));
+      });
+
+      if (deneme[0] == 0) {
+        textController.clear();
+      }
+      for (int i = 1; i < 4; i++) {
+        if (deneme[0] == deneme[i]) {
+          textController.clear();
+        }
+      }
+      for (int i = 2; i < 4; i++) {
+        if (deneme[1] == deneme[i]) {
+          textController.clear();
+        }
+      }
+      if (deneme[2] == deneme[3]) {
+        textController.clear();
+      }
+      // Navigator.of(context).push(
+      //     MaterialPageRoute(builder: (context) => Logic(chosen: chose)));
+      // textController!.text = '';
+      // debugPrint(chose.toString());
+    },
   );
 }

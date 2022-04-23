@@ -10,8 +10,8 @@ class DialogHelper {
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
-          title: Text('Cupertino Dialog'),
-          content: Text('Hey! I am Coflutter!'),
+          title: Text('Game Over'),
+          content: Text('Congratulations'),
           actions: <Widget>[
             TextButton(
                 onPressed: () {

@@ -21,10 +21,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: const Color.fromARGB(98, 132, 203, 236),
-          secondary: const Color.fromARGB(97, 2, 53, 77),
-        ),
+        colorScheme: ColorScheme.fromSwatch()
+            .copyWith(primary: Colors.black, secondary: Colors.black),
       ),
       home: EnterPage(),
     );
