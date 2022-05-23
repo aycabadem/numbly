@@ -30,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Container(
-        color: Color.fromARGB(255, 199, 190, 111),
+        color: Color.fromARGB(255, 137, 167, 190),
         child: BlocConsumer<GameCubit, GameState>(
           listener: (context, state) {
             if (state.tahmin.isNotEmpty && state.tahmin.last.artiBir == 4) {
@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(
-                        '4 Basamakli Bir Sayi Gir',
+                        'Enter a 4 digit number',
                         style: TextStyle(
                             fontSize: 24,
                             color: Colors.white,

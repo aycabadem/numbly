@@ -18,7 +18,7 @@ class DialogHelper {
                   BlocProvider.of<GameCubit>(context).clear();
                   Navigator.of(context).pop();
                 },
-                child: Text('Tekrar oyna')),
+                child: Text('Play Again')),
           ],
         );
       },
