@@ -1,16 +1,7 @@
 # numbly
 
-A new Flutter project.
+<img src="https://user-images.githubusercontent.com/25491980/211044896-0ab4d6dd-1526-4a0d-808d-849feddbc6f7.jpg" width=49% height=50%>                <img src="https://user-images.githubusercontent.com/25491980/211044901-58dfd81c-06fa-43db-8f1a-cfda9ea649cd.jpg" width=49% height=50%>
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+<img src="https://user-images.githubusercontent.com/25491980/211044902-e7816ee6-5fe6-41f6-85f6-36a0b2ec911e.jpg" width=49% height=50%>                 <img src="https://user-images.githubusercontent.com/25491980/211044903-81b38b35-8ebd-4176-8ad5-310ddb93d716.jpg" width=49% height=50%> 
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
